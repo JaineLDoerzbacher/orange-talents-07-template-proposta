@@ -1,0 +1,17 @@
+
+server:
+  port: 8081
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/PROPOSTAS
+    username: root
+    password: 1233t4i8a
+    initialization-mode: always
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL5Dialect
+    generate-sql: true
+
