@@ -11,6 +11,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Proposta {
@@ -47,6 +49,12 @@ public class Proposta {
 
     @OneToOne
     private Cartao cartao;
+
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+    private List<Biometria> biometriaList;
+
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+    private List<Bloqueio> bloqueios = new ArrayList<>();
 
     @Deprecated
     public Proposta() {
