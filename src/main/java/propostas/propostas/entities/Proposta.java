@@ -2,6 +2,7 @@ package propostas.propostas.entities;
 
 
 
+import propostas.propostas.enums.StatusProposta;
 import propostas.propostas.validators.CPFouCNPJ;
 
 import javax.persistence.*;
@@ -39,6 +40,10 @@ public class Proposta {
     @Column(nullable = false)
     private BigDecimal salario;
 
+    @Enumerated(EnumType.STRING)
+    private StatusProposta statusProposta;
+
+
     @Deprecated
     public Proposta() {
     }
@@ -73,6 +78,15 @@ public class Proposta {
 
     public BigDecimal getSalario() {
         return salario;
+    }
+
+    public StatusProposta getStatusProposta() {
+        return statusProposta;
+    }
+
+    public void atualizaStatusProposta(StatusProposta restricao){
+
+        this.statusProposta = restricao;
     }
 
     @Override
