@@ -1,6 +1,7 @@
 version: "3.8"
-  services:
-    bd:
+services:
+
+  mysql:
     image: mysql
     container_name: mysql
     environment:
@@ -10,15 +11,3 @@ version: "3.8"
       - 3306:3306
     volumes:
       - proposta_volume:/var/lib/mysql
-
-    app:
-      build:
-        context: build/libs
-        dockerfile: ../../Dockerfile
-        network: host
-      ports:
-        - 8083:8083
-      depends_on:
-        - bd
-  volumes:
-    database-data:
