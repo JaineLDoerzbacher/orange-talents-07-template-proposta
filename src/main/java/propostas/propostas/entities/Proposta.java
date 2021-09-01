@@ -2,11 +2,13 @@ package propostas.propostas.entities;
 
 
 
+import com.sun.istack.NotNull;
+import propostas.propostas.enuns.StatusProposta;
+import propostas.propostas.security.CriptografaDocumentos;
 import propostas.propostas.validators.CPFouCNPJ;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
@@ -27,6 +29,7 @@ public class Proposta {
 
     @NotBlank
     @CPFouCNPJ
+    @Convert(converter = CriptografaDocumentos.class)
     @Column(nullable = false)
     private String documento;
 
@@ -38,6 +41,12 @@ public class Proposta {
     @Positive
     @Column(nullable = false)
     private BigDecimal salario;
+
+    @Enumerated(EnumType.STRING)
+    private StatusProposta statusProposta;
+
+    @OneToOne
+    private Cartao cartao;
 
     @Deprecated
     public Proposta() {
@@ -73,6 +82,19 @@ public class Proposta {
 
     public BigDecimal getSalario() {
         return salario;
+    }
+
+    public StatusProposta getStatusProposta() {
+        return statusProposta;
+    }
+
+    public Cartao getCartao() { return cartao; }
+
+    public void setCartao(Cartao cartao) { this.cartao = cartao; }
+
+    public void atualizaStatusProposta(StatusProposta restricao){
+
+        this.statusProposta = restricao;
     }
 
     @Override
