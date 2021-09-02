@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 //Criando métrica para contabilizar o número de propostas criadas.
 @Component
 public class MetricasPropostas {
