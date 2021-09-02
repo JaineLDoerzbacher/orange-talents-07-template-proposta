@@ -15,7 +15,6 @@ public class CriptografaDocumentos implements AttributeConverter<String, String>
     @Value("${proposta.salt}")
     private String salt;
 
-
     @Override
     public String convertToDatabaseColumn(String s) {
         return Encryptors.queryableText(segredo, salt).encrypt(s);
