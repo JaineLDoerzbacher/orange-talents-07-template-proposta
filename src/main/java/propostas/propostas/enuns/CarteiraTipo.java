@@ -1,5 +1,6 @@
 package propostas.propostas.enuns;
 
 public enum CarteiraTipo {
-    PAYPAL
+    PAYPAL,
+    SAMSUNG_PAY
 }
