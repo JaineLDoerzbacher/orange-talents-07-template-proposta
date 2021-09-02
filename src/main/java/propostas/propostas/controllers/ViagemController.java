@@ -1,11 +1,14 @@
 package propostas.propostas.controllers;
 
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import propostas.propostas.dto.ResultadoAvisoViagemDTO;
 import propostas.propostas.dto.ViagemDTO;
 import propostas.propostas.entities.Cartao;
 import propostas.propostas.entities.Viagem;
+import propostas.propostas.feign.CartaoFeign;
 import propostas.propostas.repositories.CartaoRepository;
 import propostas.propostas.repositories.ViagemRepository;
 
@@ -23,8 +26,12 @@ public class ViagemController {
     @Autowired
     ViagemRepository viagemRepository;
 
+    @Autowired
+    CartaoFeign cartaoFeign;
+
     @PostMapping("/{cartao}")
-    public ResponseEntity<?> cadastraAvisoDeViagem(@PathVariable String cartao, @RequestBody @Valid ViagemDTO viagemDTO,
+    public ResponseEntity<?> cadastraAvisoDeViagem(@PathVariable String cartao,
+                                                   @RequestBody @Valid ViagemDTO viagemDTO,
                                                    HttpServletRequest http) {
 
         Optional<Cartao> cartaoViagem = cartaoRepository.findByNumeroCartao(cartao);
@@ -41,11 +48,15 @@ public class ViagemController {
         String userAgent = http.getHeader("User-Agent");
 
         try {
+            ResultadoAvisoViagemDTO notificacao = cartaoFeign.notificaViagem(cartao, new ViagemDTO(viagemDTO.getDestino(), viagemDTO.getValidoAte()));
+            System.out.println(notificacao.getResultado());
             Viagem avisoViagem = viagemDTO.converte(ipClient, userAgent, verificaCartao);
             viagemRepository.save(avisoViagem);
-        } catch ( Exception error) {
-            System.out.println(error.getMessage());
+            return ResponseEntity.status(200).build();
+
+        } catch (FeignException error) {
+            error.printStackTrace();
+            return ResponseEntity.status(422).body("Não foi possível realizar a notificação de viagem.");
         }
-        return ResponseEntity.status(200).body("Aviso de viagem cadastrado com sucesso.");
     }
 }
