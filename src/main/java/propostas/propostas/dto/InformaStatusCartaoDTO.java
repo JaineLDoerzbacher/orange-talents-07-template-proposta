@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 public class InformaStatusCartaoDTO {
 
     private String resultado;
-
     @JsonCreator
     public InformaStatusCartaoDTO(String resultado) {
         this.resultado = resultado;
