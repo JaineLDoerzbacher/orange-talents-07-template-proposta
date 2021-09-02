@@ -28,6 +28,9 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
     private List<Bloqueio> bloqueios = new ArrayList<>();
 
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+    private List<Viagem> avisosViagem = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     private StatusCartao statusCartao = StatusCartao.ATIVO;
 
