@@ -18,4 +18,9 @@ public interface CartaoFeign {
 
     @PostMapping("${avisos.cartoes}")
     public ResultadoAvisoViagemDTO notificaViagem(@PathVariable String id, @RequestBody ViagemDTO request);
+
+
+    @PostMapping("${proposta.service.carteira}")
+    public ResultadoCarteiraDTO associaCarteira(@PathVariable String id, @RequestBody CarteiraDTO carteiraDTO);
+
 }
