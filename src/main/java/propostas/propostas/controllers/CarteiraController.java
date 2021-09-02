@@ -1,5 +1,7 @@
 package propostas.propostas.controllers;
 
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +29,17 @@ public class CarteiraController {
     private CarteiraRepository carteiraRepository;
 
     @Autowired
+    Tracer tracer;
+
+    @Autowired
     CartaoFeign cartaoFeign;
 
     @PostMapping("{numeroCartao}")
     public ResponseEntity<?> associaCarteira(@PathVariable String numeroCartao,
                                              @RequestBody @Valid CarteiraDTO carteiraDTO,
                                              UriComponentsBuilder builder) {
+
+        Span activeSpan = tracer.activeSpan();
 
         Optional<Cartao> associarCartao = cartaoRepository.findByNumeroCartao(numeroCartao);
 
@@ -51,6 +58,9 @@ public class CarteiraController {
 
             Carteira carteira = carteiraDTO.converter(cartao);
             carteiraRepository.save(carteira);
+
+            activeSpan.log("Carteira associada com " + carteiraDTO.getCarteira());
+
             URI uri = builder.path("/carteiras/{id}/{idCarteira}").buildAndExpand(cartao.getId(), carteira.getId()).toUri();
             return ResponseEntity.created(uri).build();
 

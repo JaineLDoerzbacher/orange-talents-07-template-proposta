@@ -9,7 +9,6 @@ import java.util.List;
 
 @Entity
 public class Cartao {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,12 +27,14 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
     private List<Bloqueio> bloqueios = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
-    private List<Viagem> avisosViagem = new ArrayList<>();
-
     @Enumerated(EnumType.STRING)
     private StatusCartao statusCartao = StatusCartao.ATIVO;
 
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+    private List<Viagem> avisosViagem = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+    private List<Carteira> carteiras;
 
     @Deprecated
     public Cartao() {
