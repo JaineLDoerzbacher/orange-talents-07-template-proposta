@@ -50,12 +50,6 @@ public class Proposta {
     @OneToOne
     private Cartao cartao;
 
-    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
-    private List<Biometria> biometriaList;
-
-    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
-    private List<Bloqueio> bloqueios = new ArrayList<>();
-
     @Deprecated
     public Proposta() {
     }
